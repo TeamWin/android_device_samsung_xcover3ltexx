@@ -1,0 +1,93 @@
+import /init.recovery.usb.rc
+import /init.recovery.${ro.hardware}.rc
+
+on early-init
+    # Apply strict SELinux checking of PROT_EXEC on mmap/mprotect calls.
+    write /sys/fs/selinux/checkreqprot 0
+
+    # Set the security context for the init process.
+    # This should occur before anything else (e.g. ueventd) is started.
+    setcon u:r:init:s0
+
+    start ueventd
+    start healthd
+
+service set_permissive /sbin/toolbox setenforce 0
+    oneshot
+    seclabel u:r:recovery:s0
+
+on init
+    export PATH /sbin:/vendor/bin:/system/sbin:/system/bin:/system/xbin
+    export LD_LIBRARY_PATH /sbin
+    export ANDROID_ROOT /system
+    export ANDROID_DATA /data
+    export EXTERNAL_STORAGE /sdcard
+
+    symlink /system/etc /etc
+
+    mkdir /sdcard
+    mkdir /sdcard1
+    mkdir /.system
+    mkdir /system
+    mkdir /data
+    mkdir /cache
+    mkdir /preload
+    mkdir /custom
+    mkdir /efs
+    mkdir /tmp
+    mkdir /carrier
+    
+    mount /tmp /tmp tmpfs
+
+    chown root shell /tmp
+    chmod 0775 /tmp
+    
+    #write /sys/class/android_usb/android0/enable 0
+    #write /sys/class/android_usb/android0/idVendor 04e8
+    #write /sys/class/android_usb/android0/idProduct 6860
+    #write /sys/class/android_usb/android0/functions adb
+    #write /sys/class/android_usb/android0/iManufacturer ${ro.product.manufacturer}
+    #write /sys/class/android_usb/android0/iProduct ${ro.product.model}
+    #write /sys/class/android_usb/android0/iSerial ${ro.serialno}
+
+    write /proc/sys/kernel/hung_task_timeout_secs 0
+    write /sys/block/mmcblk0boot0/force_ro 0
+    write /sys/block/mmcblk0boot1/force_ro 0
+
+on boot
+
+    ifup lo
+    hostname localhost
+    domainname localdomain
+
+    class_start default
+
+on property:sys.powerctl=*
+   powerctl ${sys.powerctl}
+
+service ueventd /sbin/ueventd
+    critical
+    seclabel u:r:ueventd:s0
+
+service healthd /sbin/healthd -n
+    critical
+    seclabel u:r:healthd:s0
+
+service recovery /sbin/recovery
+
+service adbd /sbin/adbe recovery
+    disabled
+    socket adbd stream 660 system system
+    seclabel u:r:adbd:s0
+
+# Always start adbd on userdebug and eng builds
+on property:ro.debuggable=1
+    #write /sys/class/android_usb/android0/enable 1
+    #start adbd
+    setprop service.adb.root=1
+
+# Restart adbd so it can run as root
+on property:service.adb.root=1
+    write /sys/class/android_usb/android0/enable 0
+    restart adbd
+    write /sys/class/android_usb/android0/enable 1
