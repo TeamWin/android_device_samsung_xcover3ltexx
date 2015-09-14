@@ -28,7 +28,7 @@ BOARD_FLASH_BLOCK_SIZE := 131072
 
 BOARD_HAS_NO_SELECT_BUTTON := true
 
-BOARD_CUSTOM_MKBOOTIMG := /home/dees_troy/komni/device/samsung/xcover3ltexx/tools/xcover3-mkbootimg
+BOARD_CUSTOM_MKBOOTIMG := device/samsung/xcover3ltexx/tools/xcover3-mkbootimg
 BOARD_CUSTOM_BOOTIMG_MK := device/samsung/xcover3ltexx/custom_mkbootimg.mk
 BOARD_MKBOOTIMG_ARGS := --dt device/samsung/xcover3ltexx/dt.img
 TARGET_PREBUILT_KERNEL := device/samsung/xcover3ltexx/kernel
