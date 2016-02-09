@@ -45,7 +45,6 @@ BOARD_HAS_NO_REAL_SDCARD := true
 TW_MTP_DEVICE := /dev/usb_mtp_gadget
 TW_EXCLUDE_DEFAULT_USB_INIT := true
 TARGET_RECOVERY_INITRC := device/samsung/xcover3ltexx/init.rc
-TW_BOARD_CUSTOM_GRAPHICS := ../../../device/samsung/xcover3ltexx/graphics.c
 TW_NO_REBOOT_BOOTLOADER := true
 TW_HAS_DOWNLOAD_MODE := true
 
