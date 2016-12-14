@@ -37,7 +37,7 @@ TARGET_PREBUILT_KERNEL := device/samsung/xcover3ltexx/kernel
 #TARGET_KERNEL_VARIANT_CONFIG := pxa1088_xcover3ltexx_eur_tgalal
 
 #twrp
-TW_THEME:= portrait_mdpi
+TW_THEME := portrait_mdpi
 RECOVERY_SDCARD_ON_DATA := true
 RECOVERY_GRAPHICS_USE_LINELENGTH := true
 BOARD_HAS_NO_REAL_SDCARD := true
