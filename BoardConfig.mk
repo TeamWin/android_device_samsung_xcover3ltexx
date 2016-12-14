@@ -33,11 +33,10 @@ BOARD_CUSTOM_BOOTIMG_MK := device/samsung/xcover3ltexx/custom_mkbootimg.mk
 BOARD_MKBOOTIMG_ARGS := --dt device/samsung/xcover3ltexx/dt.img
 TARGET_PREBUILT_KERNEL := device/samsung/xcover3ltexx/kernel
 #TARGET_KERNEL_SOURCE := kernel/samsung/xcover3ltexx
-#TARGET_KERNEL_CONFIG := pxa1088_xcover3ltexx_eur_defconfig
-#TARGET_KERNEL_VARIANT_CONFIG := pxa1088_xcover3ltexx_eur_tgalal
+#TARGET_KERNEL_CONFIG := pxa1908_xcover3lte_eur_defconfig
 
 #twrp
-TW_THEME:= portrait_mdpi
+TW_THEME := portrait_mdpi
 RECOVERY_SDCARD_ON_DATA := true
 RECOVERY_GRAPHICS_USE_LINELENGTH := true
 BOARD_HAS_NO_REAL_SDCARD := true
